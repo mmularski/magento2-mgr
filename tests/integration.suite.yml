@@ -1,0 +1,14 @@
+actor: IntegrationTester
+modules:
+    enabled:
+            - \Helper\Integration
+            - Asserts
+            - PhpBrowser:
+                url: 'http://magento2.local/'
+            - Db:
+                dsn: 'mysql:host=localhost;dbname=integrationtests'
+                user: 'magento2'
+                password: 'ci8Uega1'
+            - REST:
+                depends: PhpBrowser
+                url: 'http://magento2.local'
