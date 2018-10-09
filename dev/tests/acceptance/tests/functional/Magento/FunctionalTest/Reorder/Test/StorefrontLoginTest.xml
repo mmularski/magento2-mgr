@@ -8,37 +8,26 @@
 -->
 <tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Test/etc/testSchema.xsd">
-    <test name="StorefrontAddToCardTest">
+    <test name="StorefrontLoginTest">
         <annotations>
-            <features value="Customer can use ship to filter to get specific order."/>
-            <stories value="Customer can use ship to filter to get specific order."/>
-            <title value="Customer can use ship to filter to get specific order."/>
-            <description value="Customer can use ship to filter to get specific order."/>
+            <features value="Customer can log in"/>
+            <stories value="Customer can log in"/>
+            <title value="Customer can log in"/>
+            <description value="Customer can log in"/>
             <severity value="CRITICAL"/>
             <group value="customer"/>
         </annotations>
         <before>
-            <createData entity="SimpleSubCategory" stepKey="category"/>
-            <createData entity="SimpleProduct1" stepKey="product1">
-                <requiredEntity createDataKey="category"/>
-            </createData>
-            <createData entity="SimpleProduct2" stepKey="product2">
-                <requiredEntity createDataKey="category"/>
-            </createData>
-            <createData entity="Simple_US_Customer" stepKey="customer"/>
-            <actionGroup ref="CustomerLoginOnStorefront" stepKey="customerLogin">
-                <argument name="customer" value="$$customer$$"/>
-            </actionGroup>
         </before>
         <after>
-            <deleteData createDataKey="customer" stepKey="deleteCustomer"/>
-            <deleteData createDataKey="product1" stepKey="deleteProduct1"/>
-            <deleteData createDataKey="product2" stepKey="deleteProduct2"/>
-            <deleteData createDataKey="category" stepKey="deleteCategory"/>
         </after>
-        <actionGroup ref="AddSimpleProductToCart" stepKey="addProduct1ToCart">
-            <argument name="product" value="$$product1$$"/>
-        </actionGroup>
+        <amOnPage stepKey="loginPage" url="customer/account/login/"/>
+        <waitForPageLoad stepKey="pageLoadBeforeLogin"/>
+        <fillField stepKey="fillEmail" userInput="mmularczyk9@gmail.com" selector="{{StorefrontCustomerSignInFormSection.emailField}}"/>
+        <fillField stepKey="fillPassword" userInput="Admin123" selector="{{StorefrontCustomerSignInFormSection.passwordField}}"/>
+        <click stepKey="clickSignInAccountButton" selector="{{StorefrontCustomerSignInFormSection.signInAccountButton}}"/>
+        <waitForPageLoad stepKey="pageLoadAfterLogin"/>
+        <see stepKey="seeWelcomeText" userInput="Marek Mularczyk" selector="{{StorefrontPanelHeaderSection.welcomeText('Marek Mularczyk')}}"/>
 
         <!--<actionGroup ref="ProcessCheckout" stepKey="processFirstOrder"/>-->
         <!--<grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber1"/>-->

@@ -1,0 +1,78 @@
+<?xml version="1.0"?><!--
+/**
+ * @package      magento2-mgr 
+ * @author      Marek Mularczyk <mmularczyk@divante.pl>
+ * @copyright   2018 Divante Sp. z o.o.
+ * @license See LICENSE_DIVANTE.txt for license details.
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Test/etc/testSchema.xsd">
+    <test name="StorefrontReorderProductsTest">
+        <annotations>
+            <features value="Customer can log in and see old products in reorder section"/>
+            <stories value="Customer can log in and see old products in reorder section"/>
+            <title value="Customer can log in and see old products in reorder section"/>
+            <description value="Customer can log in and see old products in reorder section"/>
+            <severity value="CRITICAL"/>
+            <group value="customer"/>
+        </annotations>
+        <before>
+        </before>
+        <after>
+        </after>
+        <amOnPage stepKey="loginPage" url="customer/account/login/"/>
+        <waitForPageLoad stepKey="pageLoadBeforeLogin"/>
+        <fillField stepKey="fillEmail" userInput="mmularczyk9@gmail.com" selector="{{StorefrontCustomerSignInFormSection.emailField}}"/>
+        <fillField stepKey="fillPassword" userInput="Admin123" selector="{{StorefrontCustomerSignInFormSection.passwordField}}"/>
+        <click stepKey="clickSignInAccountButton" selector="{{StorefrontCustomerSignInFormSection.signInAccountButton}}"/>
+        <waitForPageLoad stepKey="pageLoadAfterLogin"/>
+
+        <amOnPage stepKey="reorderPage" url="sales/products/reorder/"/>
+        <dontSee selector="{{StorefrontReorderProductsProductsSection.emptyListMessage}}" stepKey="assertDoNotSeeEmptyProductsMessage"/>
+
+        <!--<actionGroup ref="ProcessCheckout" stepKey="processFirstOrder"/>-->
+        <!--<grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber1"/>-->
+        <!--<actionGroup ref="AddSimpleProductToCart" stepKey="addProduct2ToCart">-->
+            <!--<argument name="product" value="$$product2$$"/>-->
+        <!--</actionGroup>-->
+        <!--<actionGroup ref="ProcessCheckout" stepKey="processSecondOrder"/>-->
+        <!--<grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber2"/>-->
+        <!--<actionGroup ref="AddSimpleProductToCart" stepKey="addProduct2_1ToCart">-->
+            <!--<argument name="product" value="$$product2$$"/>-->
+        <!--</actionGroup>-->
+        <!--<amOnPage url="{{CheckoutPage.url}}" stepKey="amOnCheckoutPage"/>-->
+        <!--<waitForPageLoad stepKey="waitForPageLoad1"/>-->
+        <!--<waitForElement selector="{{CheckoutShippingMethodsSection.next}}" time="30" stepKey="waitForNextButton1"/>-->
+        <!--<waitForLoadingMaskToDisappear stepKey="waitForLoadingMask1"/>-->
+        <!--<click selector="{{StorefrontCheckoutShippingNewAddressFormSection.newAddressButton}}" stepKey="clickAddNewAddress"/>-->
+        <!--<clearField selector="{{StorefrontCheckoutShippingNewAddressFormSection.firstname}}" stepKey="clearFirstNameField"/>-->
+        <!--<clearField selector="{{StorefrontCheckoutShippingNewAddressFormSection.lastname}}" stepKey="clearLastNameField"/>-->
+        <!--<fillField userInput="Richard" selector="{{StorefrontCheckoutShippingNewAddressFormSection.firstname}}" stepKey="fillFirstName"/>-->
+        <!--<fillField userInput="Roe" selector="{{StorefrontCheckoutShippingNewAddressFormSection.lastname}}" stepKey="fillLastName"/>-->
+        <!--<fillField userInput="7700 W Parmer Ln Bld D" selector="{{StorefrontCheckoutShippingNewAddressFormSection.street1}}" stepKey="fillStreet"/>-->
+        <!--<fillField userInput="Austin" selector="{{StorefrontCheckoutShippingNewAddressFormSection.city}}" stepKey="fillCity"/>-->
+        <!--<selectOption userInput="57" selector="{{StorefrontCheckoutShippingNewAddressFormSection.region}}" stepKey="selectRegion"/>-->
+        <!--<fillField userInput="78729" selector="{{StorefrontCheckoutShippingNewAddressFormSection.postcode}}" stepKey="fillPostalCode"/>-->
+        <!--<fillField userInput="1234568910" selector="{{StorefrontCheckoutShippingNewAddressFormSection.telephone}}" stepKey="fillPhoneNumber"/>-->
+        <!--<click selector="{{StorefrontCheckoutShippingNewAddressFormSection.saveAddress}}" stepKey="clickSaveAddress"/>-->
+        <!--<waitForElement selector="{{CheckoutShippingMethodsSection.next}}" time="30" stepKey="waitForNextButton2"/>-->
+        <!--<waitForLoadingMaskToDisappear stepKey="waitForLoadingMask2"/>-->
+        <!--<click selector="{{CheckoutShippingMethodsSection.firstShippingMethod}}" stepKey="selectFirstShippingMethod"/>-->
+        <!--<click selector="{{CheckoutShippingMethodsSection.next}}" stepKey="clickNext"/>-->
+        <!--<waitForElement selector="{{CheckoutPaymentSection.placeOrder}}" time="30" stepKey="waitForPlaceOrderButton"/>-->
+        <!--<click selector="{{CheckoutPaymentSection.placeOrder}}" stepKey="clickPlaceOrder"/>-->
+        <!--<waitForPageLoad stepKey="waitForPageLoad2"/>-->
+        <!--<grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber3"/>-->
+        <!--<amOnPage  url="{{StorefrontCustomerMyOrdersPage.url}}" stepKey="amOnMyOrdersPage"/>-->
+        <!--<see userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertSeeOrder1BeforeFilter"/>-->
+        <!--<see userInput="{$orderNumber2}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber2')}}" stepKey="assertSeeOrder2BeforeFilter"/>-->
+        <!--<see userInput="{$orderNumber3}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber3')}}" stepKey="assertSeeOrder3BeforeFilter"/>-->
+        <!--<executeJS function="jQuery('{{StorefrontCustomerMyOrdersSection.shipToFilter}} option:last').attr('selected', 'selected');" stepKey="selectNewAddedAddress"/>-->
+        <!--<click selector="{{StorefrontCustomerMyOrdersSection.applyFiltersButton}}" stepKey="clickApplyFilters1"/>-->
+        <!--<waitForPageLoad stepKey="waitForPageLoad3"/>-->
+        <!--<see userInput="{$orderNumber3}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber3')}}" stepKey="assertSeeFilteredShipTo3Order"/>-->
+        <!--<dontSee userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertDoNotSeeShipTo1Order"/>-->
+        <!--<dontSee userInput="{$orderNumber2}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber2')}}" stepKey="assertDoNotSeeShipTo2Order"/>-->
+    </test>
+</tests>
