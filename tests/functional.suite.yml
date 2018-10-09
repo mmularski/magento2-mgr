@@ -10,3 +10,10 @@ modules:
     enabled:
         # add a framework module here
         - \Helper\Functional
+        - WebDriver
+
+    config:
+        WebDriver:
+            url: https://magento2.local/
+            browser: chrome
+            restart: true
