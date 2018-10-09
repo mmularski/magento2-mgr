@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Test/etc/testSchema.xsd">
+    <test name="StorefrontOrderDateFiltersTest">
+        <annotations>
+            <features value="Customer can use order date filters to get specific order."/>
+            <stories value="Customer can use order date filters to get specific order."/>
+            <title value="Customer can use order date filters to get specific order."/>
+            <description value="Customer can use order date filters to get specific order."/>
+            <severity value="CRITICAL"/>
+            <group value="customer"/>
+        </annotations>
+        <before>
+            <createData entity="SimpleSubCategory" stepKey="category"/>
+            <createData entity="SimpleProduct1" stepKey="product1">
+                <requiredEntity createDataKey="category"/>
+            </createData>
+            <createData entity="Simple_US_Customer" stepKey="customer"/>
+
+            <actionGroup ref="CustomerLoginOnStorefront" stepKey="customerLogin">
+                <argument name="customer" value="$$customer$$"/>
+            </actionGroup>
+        </before>
+        <after>
+            <deleteData createDataKey="customer" stepKey="deleteCustomer"/>
+            <deleteData createDataKey="product1" stepKey="deleteProduct1"/>
+            <deleteData createDataKey="category" stepKey="deleteCategory"/>
+        </after>
+
+        <actionGroup ref="AddSimpleProductToCart" stepKey="addProduct1ToCart">
+            <argument name="product" value="$$product1$$"/>
+        </actionGroup>
+        <actionGroup ref="ProcessCheckout" stepKey="processFirstOrder"/>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber1"/>
+
+        <amOnPage url="{{StorefrontCustomerMyOrdersPage.url}}" stepKey="amOnMyOrdersPage"/>
+        <see userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertSeeOrder1BeforeFilter"/>
+        <executeJS function="jQuery('{{StorefrontCustomerMyOrdersSection.orderFromFilter}}').val(jQuery.datepicker.formatDate('mm/dd/yy', new Date()));" stepKey="fillOrderFromField"/>
+        <executeJS function="jQuery('{{StorefrontCustomerMyOrdersSection.orderToFilter}}').val(jQuery.datepicker.formatDate('mm/dd/yy', new Date()));" stepKey="fillOrderToField"/>
+        <click selector="{{StorefrontCustomerMyOrdersSection.applyFiltersButton}}" stepKey="clickApplyFilters1"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <see userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertSeeFilteredDateOrder"/>
+
+        <click selector="{{StorefrontCustomerMyOrdersSection.resetFiltersButton}}" stepKey="clickResetFilters1"/>
+
+        <executeJS function="jQuery('{{StorefrontCustomerMyOrdersSection.orderFromFilter}}').val('03/11/2008');" stepKey="fillOrderFromFieldPastDate"/>
+        <executeJS function="jQuery('{{StorefrontCustomerMyOrdersSection.orderToFilter}}').val('03/11/2008');" stepKey="fillOrderToFieldPastDate"/>
+        <click selector="{{StorefrontCustomerMyOrdersSection.applyFiltersButton}}" stepKey="clickApplyFilters2"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+        <seeElement selector="{{StorefrontCustomerMyOrdersSection.noOrdersInformation}}" stepKey="assertNoOrders"/>
+    </test>
+</tests>

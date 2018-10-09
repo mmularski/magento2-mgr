@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Test/etc/testSchema.xsd">
+    <test name="StorefrontBasicOrderFilersTest">
+        <annotations>
+            <features value="Customer can use basic filters to get specific order."/>
+            <stories value="Customer can use basic filters to get specific order."/>
+            <title value="Customer can use basic filters to get specific order."/>
+            <description value="Customer can use basic filters to get specific order."/>
+            <severity value="CRITICAL"/>
+            <group value="customer"/>
+        </annotations>
+        <before>
+            <createData entity="SimpleSubCategory" stepKey="category"/>
+            <createData entity="SimpleProduct1" stepKey="product1">
+                <requiredEntity createDataKey="category"/>
+            </createData>
+            <createData entity="SimpleProduct2" stepKey="product2">
+                <requiredEntity createDataKey="category"/>
+            </createData>
+            <createData entity="Simple_US_Customer" stepKey="customer"/>
+
+            <actionGroup ref="CustomerLoginOnStorefront" stepKey="customerLogin">
+                <argument name="customer" value="$$customer$$"/>
+            </actionGroup>
+        </before>
+        <after>
+            <deleteData createDataKey="customer" stepKey="deleteCustomer"/>
+            <deleteData createDataKey="product1" stepKey="deleteProduct1"/>
+            <deleteData createDataKey="product2" stepKey="deleteProduct2"/>
+            <deleteData createDataKey="category" stepKey="deleteCategory"/>
+        </after>
+
+        <actionGroup ref="AddSimpleProductToCart" stepKey="addProduct1ToCart">
+            <argument name="product" value="$$product1$$"/>
+        </actionGroup>
+        <actionGroup ref="ProcessCheckout" stepKey="processFirstOrder"/>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber1"/>
+
+        <actionGroup ref="AddSimpleProductToCart" stepKey="addProduct2ToCart">
+            <argument name="product" value="$$product2$$"/>
+        </actionGroup>
+        <actionGroup ref="ProcessCheckout" stepKey="processSecondOrder"/>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber2"/>
+
+        <amOnPage url="{{StorefrontCustomerMyOrdersPage.url}}" stepKey="amOnMyOrdersPage"/>
+        <see userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertSeeOrder1BeforeFilter"/>
+        <see userInput="{$orderNumber2}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber2')}}" stepKey="assertSeeOrder2BeforeFilter"/>
+        <fillField userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderNumberFilter}}" stepKey="fillOrderNumber"/>
+        <click selector="{{StorefrontCustomerMyOrdersSection.applyFiltersButton}}" stepKey="clickApplyFilters1"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <see userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertSeeFilteredNumberOrder"/>
+        <dontSee userInput="{$orderNumber2}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber2')}}" stepKey="assertDoNotSeeNumberSecondOrder"/>
+
+        <click selector="{{StorefrontCustomerMyOrdersSection.resetFiltersButton}}" stepKey="clickResetFilters1"/>
+
+        <fillField userInput="$$product2.sku$$" selector="{{StorefrontCustomerMyOrdersSection.productFilter}}" stepKey="fillProductSku"/>
+        <click selector="{{StorefrontCustomerMyOrdersSection.applyFiltersButton}}" stepKey="clickApplyFilters2"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+        <see userInput="{$orderNumber2}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber2')}}" stepKey="assertSeeFilteredSkuOrder"/>
+        <dontSee userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertDoNotSeeSecondSkuOrder"/>
+
+        <click selector="{{StorefrontCustomerMyOrdersSection.resetFiltersButton}}" stepKey="clickResetFilters2"/>
+
+        <fillField userInput="100" selector="{{StorefrontCustomerMyOrdersSection.orderTotalFromFilter}}" stepKey="fillOrderTotalFromNumber"/>
+        <fillField userInput="150" selector="{{StorefrontCustomerMyOrdersSection.orderTotalToFilter}}" stepKey="fillOrderTotalToNumber"/>
+        <click selector="{{StorefrontCustomerMyOrdersSection.applyFiltersButton}}" stepKey="clickApplyFilters3"/>
+        <waitForPageLoad stepKey="waitForPageLoad3"/>
+        <see userInput="{$orderNumber1}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber1')}}" stepKey="assertSeeFilteredOrder"/>
+        <dontSee userInput="{$orderNumber2}" selector="{{StorefrontCustomerMyOrdersSection.orderHistoryTableOrderNumber('$orderNumber2')}}" stepKey="assertDoNotSeeSecondOrder"/>
+    </test>
+</tests>
