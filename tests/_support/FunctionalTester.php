@@ -23,4 +23,17 @@ class FunctionalTester extends \Codeception\Actor
    /**
     * Define custom actions here
     */
+
+    public function waitForPageLoad($timeout = 30)
+    {
+        $this->waitForJS('return document.readyState == "complete"', $timeout);
+
+        try {
+            $this->waitForJS('return !!window.jQuery && window.jQuery.active == 0;', $timeout);
+        } catch (\Exception $exception) {
+            $this->wait($timeout);
+        }
+
+        $this->wait(1);
+    }
 }

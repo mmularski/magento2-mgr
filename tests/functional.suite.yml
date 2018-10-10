@@ -16,4 +16,4 @@ modules:
         WebDriver:
             url: https://magento2.local/
             browser: chrome
-            restart: true
+            restart: false

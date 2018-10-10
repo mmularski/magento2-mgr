@@ -10,5 +10,7 @@
         xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Page/etc/SectionObject.xsd">
     <section name="StorefrontReorderProductsProductsSection">
         <element name="emptyListMessage" type="text" selector="//div[@class='message info empty']"/>
+        <element name="firstProductNameOnProductList" type="text" selector="//ol[@class='products list items product-items']//li[1]//div[1]//div[1]//strong[1]"/>
+        <element name="firstAddToCartButtonOnProductList" type="button" selector="//ol[@class='products list items product-items']//li[1]//div[1]//div[1]//div[3]//div[1]//div[1]//form[1]//button[1]"/>
     </section>
 </sections>
