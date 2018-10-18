@@ -5,21 +5,17 @@
   * See COPYING.txt for license details.
   */
 -->
-<suites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Suite/etc/suiteSchema.xsd">
+<suites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Suite/etc/suiteSchema.xsd">
     <suite name="testsuite">
         <before>
-            <!--<createData entity="defaultCategory" stepKey="createCategory"/>-->
         </before>
         <after>
-            <!--<deleteData createDataKey="createCategory" stepKey="deleteCategory"/>-->
         </after>
         <include>
-            <module name="Reorder" />
-            <!--<group name="login" />-->
-            <!--<test name="AdminCreateCustomerTest"/>-->
+            <module name="Reorder"/>
         </include>
         <exclude>
-            <!--<module name="Catalog" file="AdminCreateCategoryTest.xml" />-->
         </exclude>
     </suite>
 </suites>

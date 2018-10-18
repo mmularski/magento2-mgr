@@ -33,26 +33,17 @@ class OwnSimulation extends Simulation {
   val headers_10 = Map("Content-Type" -> "application/x-www-form-urlencoded") // Note the headers specific to a given request
 
   val scn = scenario("Scenario Name") // A scenario is a chain of requests and pauses
-    .exec(http("request_1")
+    .exec(http("Home Page")
       .get("/"))
-    .pause(7) // Note that Gatling has recorded real time pauses
-    .exec(http("request_2")
+    .pause(1) // Note that Gatling has recorded real time pauses
+    .exec(http("Catalog Search Jacket")
       .get("/catalogsearch/result/?q=jacket"))
-    .pause(2)
-    .exec(http("request_3")
+    .pause(1)
+    .exec(http("Catalog Search Bag")
       .get("/catalogsearch/result/?q=bag"))
-    .pause(3)
-    .exec(http("request_4")
-      .get("/"))
-    .pause(2)
-    .exec(http("request_5")
+    .pause(1)
+    .exec(http("Women Jacket")
       .get("/women/tops-women/jackets-women.html?p=1"))
-    .pause(670 milliseconds)
-    .exec(http("request_6")
-      .get("/women/tops-women/jackets-women.html?p=2"))
-    .pause(629 milliseconds)
-    .exec(http("request_9")
-      .get("/women/tops-women/jackets-women.html"))
 
-  setUp(scn.inject(atOnceUsers(1)).protocols(httpProtocol))
+  setUp(scn.inject(atOnceUsers(2)).protocols(httpProtocol))
 }
