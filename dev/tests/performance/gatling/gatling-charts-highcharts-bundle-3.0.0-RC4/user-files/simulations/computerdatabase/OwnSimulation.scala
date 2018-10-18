@@ -45,5 +45,5 @@ class OwnSimulation extends Simulation {
     .exec(http("Women Jacket")
       .get("/women/tops-women/jackets-women.html?p=1"))
 
-  setUp(scn.inject(atOnceUsers(2)).protocols(httpProtocol))
+  setUp(scn.inject(atOnceUsers(25)).protocols(httpProtocol))
 }
