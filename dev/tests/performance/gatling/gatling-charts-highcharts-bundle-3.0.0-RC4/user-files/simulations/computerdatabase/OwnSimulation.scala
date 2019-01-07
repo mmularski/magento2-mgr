@@ -35,15 +35,6 @@ class OwnSimulation extends Simulation {
   val scn = scenario("Scenario Name") // A scenario is a chain of requests and pauses
     .exec(http("Home Page")
       .get("/"))
-    .pause(1) // Note that Gatling has recorded real time pauses
-    .exec(http("Catalog Search Jacket")
-      .get("/catalogsearch/result/?q=jacket"))
-    .pause(1)
-    .exec(http("Catalog Search Bag")
-      .get("/catalogsearch/result/?q=bag"))
-    .pause(1)
-    .exec(http("Women Jacket")
-      .get("/women/tops-women/jackets-women.html?p=1"))
 
   setUp(scn.inject(atOnceUsers(25)).protocols(httpProtocol))
 }
