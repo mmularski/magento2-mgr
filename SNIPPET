@@ -1,0 +1,21 @@
+STATIC
+/home/www/magento2/www/magento2.dev - ./vendor/bin/phpmd /home/www/magento2/www/magento2.dev/app/code/MMularczyk/ text /home/www/magento2/www/magento2.dev/test/static/testsuite/Magento/Test/Php/_files/phpmd/ruleset.xml
+/home/www/magento2/www/magento2.dev - ./vendor/bin/phpcs /home/www/magento2/www/magento2.dev/app/code/MMularczyk/
+/home/www/magento2/www/magento2.dev - /home/www/magento2/www/sniffers/phpstan/vendor/bin/phpstan analyse /home/www/magento2/www/magento2.dev/app/code/MMularczyk/
+
+UNIT
+/home/www/magento2/www/magento2.dev - ./dev/tests/acceptance/vendor/bin/codecept unit
+/home/www/magento2/www/magento2.dev - /home/www/magento2/www/magento2.dev/vendor/phpunit/phpunit/phpunit -c /home/www/magento2/www/magento2.dev/dev/tests/unit/phpunit.xml.dist
+
+INTEGRATION
+/home/www/magento2/www/magento2.dev - ./dev/tests/acceptance/vendor/bin/codecept integration
+/home/www/magento2/www/magento2.dev - /home/www/magento2/www/magento2.dev/vendor/phpunit/phpunit/phpunit -c /home/www/magento2/www/magento2.dev/dev/tests/integration/phpunit.xml.dist
+
+FUNCTIONAL
+/home/www/magento2/www/magento2.dev - ./dev/tests/acceptance/vendor/bin/codecept functional
+/home/www/magento2/www/magento2.dev/dev/tests/acceptance - vendor/bin/codecept run
+/home/www/magento2/www/magento2.dev - vendor/behat/behat/bin/behat
+
+PERFORMNCE
+/home/www/magento2/www/magento2.dev - siege -r 1 -c 25 https://magento2.local/
+/home/www/magento2/www/magento2.dev/dev/tests/performance/gatling/gatling-charts-highcharts-bundle-3.0.0-RC4 - ./bin/gatling.sh
